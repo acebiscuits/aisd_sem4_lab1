@@ -1,15 +1,16 @@
 #include <iostream>
+#include <stdlib.h>
 #include "BinaryTree.hpp"
 
 using namespace std;
 
-Tree::Tree()
-{
-
-
-	this->root = NULL;
-
-}
+//Tree::Tree()
+//{
+//
+//
+//	this->root = NULL;
+//
+//}
 
 Tree::Tree(const Tree& CopyTree)
 {
@@ -24,18 +25,18 @@ Tree& Tree::operator = (const Tree& CopyTree)
 {
  
 	this->root = Tree::clone(CopyTree.root);
-
+	return *this;
 };
 
 void Tree::print()
 {
-	cout << endl;
+	//cout << endl;
 
 	print_node(this->root);
 
 }
 
-bool Tree::insert( const int key )
+void Tree::insert( const int key )
 {
 	
 	this->root = add( this->root, key );
@@ -49,17 +50,17 @@ bool Tree::contains(const int key) const
 
 }
 
-bool Tree::erase(const int key) 
+void Tree::erase(const int key) 
 {
 
-	Tree::delete_node(this->root, key);
+	return Tree::delete_node(this->root, key);
 
 };
 
 void Tree::delete_node(Node* node, const int key)
 {
-	if (!node);
-
+	if (!node)
+	
 
 	if (key < node->data)
 	{
@@ -94,7 +95,7 @@ void Tree::delete_node(Node* node, const int key)
 	}
 };
 
-bool Tree::clear()
+void Tree::clear()
 {
 	
 	Tree::clear_node(this->root);

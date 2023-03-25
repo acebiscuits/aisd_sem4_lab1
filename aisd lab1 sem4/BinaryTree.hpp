@@ -23,7 +23,12 @@ private:
 
 public:
 
-	Tree();//+
+	Tree() = default;//+
+
+	Node* get_root()
+	{
+		return this->root;
+	}
 
 	Tree(  const Tree& CopyTree  );//+
 
@@ -54,16 +59,16 @@ public:
 		if (node)
 		{
 
-			cout << "  " << node->data;
-
+			cout <<node->data<<" ";
+			print_node(node->left);
+			print_node(node->right);
 		}
 
-		print_node(node->left);
-		print_node(node->right);
+		
 
 	};//+
 
-	bool insert(int key);//+
+	void insert(int key);//+
 
 	Node* add(Node* node, const int key)
 	{
@@ -76,13 +81,15 @@ public:
 		if ( key  < node->data)
 		{
 
-			return add( node->left, key );
+			node->left =  add( node->left, key );
 
 		}
-		
+		else 
+		{
 
-		return add( node->right , key );
-		
+			node->right =  add(node->right, key);
+		}
+		return node;
 	}
 
 	bool contains( const int key) const;//+ 
@@ -104,7 +111,7 @@ public:
 	}
 
 
-	bool erase(int key);//+
+	void erase(int key);//+
 
 	Node* find_min(Node* node)
 	{
@@ -118,21 +125,21 @@ public:
 		return cur;
 	}
 
-	void delete_node(Node* node, const int key);
+void delete_node(Node* node, const int key);
 
-	bool clear();//+
+void clear();//+
 
-	void clear_node(Node* root)
-	{
+void clear_node(Node* root)
+{
 
-		if (root->left)clear_node(root->left);
-		if (root->right)clear_node(root->right);
+	if (root->left)clear_node(root->left);
+	if (root->right)clear_node(root->right);
 
-		if (!root->left && !root->right)delete root;
-		root = NULL;
+	if (!root->left && !root->right)delete root;
+	root = NULL;
 
-	};
+};
 
-	~Tree();//+
+~Tree();//+
 
 };
