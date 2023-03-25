@@ -46,23 +46,93 @@ public:
 
 	}
 
-	void print();//-
+	void print();//+
 
-	void print_tree(const Node* node);//-
-
-	bool insert(int key);//-
-
-	Node* add(Node* root, const int key)
+	void print_node(const Node* node)
 	{
 
-	};//-
+		if (node)
+		{
 
-	bool contains(int key) const;
+			cout << "  " << node->data;
 
-	bool erase(int key);
+		}
 
-	bool clear();
+		print_node(node->left);
+		print_node(node->right);
 
-	~Tree();
+	};//+
+
+	bool insert(int key);//+
+
+	Node* add(Node* node, const int key)
+	{
+
+		if (!node)
+		{
+			return new Node(key );
+		}
+
+		if ( key  < node->data)
+		{
+
+			return add( node->left, key );
+
+		}
+		
+
+		return add( node->right , key );
+		
+	}
+
+	bool contains( const int key) const;//+ 
+
+	bool check(Node* node, const int key) const
+	{
+
+		if (!node)return false;
+
+		if (node->data == key) return true;
+
+		if (node->data > key)
+		{
+			return check(node->left, key);
+		}
+
+		return check(node->right, key);
+
+	}
+
+
+	bool erase(int key);//+
+
+	Node* find_min(Node* node)
+	{
+
+		Node* cur = node;
+		while (cur && cur->left)
+		{
+			cur = cur->left;
+		}
+
+		return cur;
+	}
+
+	void delete_node(Node* node, const int key);
+
+	bool clear();//+
+
+	void clear_node(Node* root)
+	{
+
+		if (root->left)clear_node(root->left);
+		if (root->right)clear_node(root->right);
+
+		if (!root->left && !root->right)delete root;
+		root = NULL;
+
+	};
+
+	~Tree();//+
 
 };
