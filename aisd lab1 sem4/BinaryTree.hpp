@@ -68,7 +68,7 @@ public:
 
 	};//+
 
-	void insert(int key);//+
+	bool insert(int key);//+
 
 	Node* add(Node* node, const int key)
 	{
@@ -111,13 +111,13 @@ public:
 	}
 
 
-	void erase(int key);//+
+	bool erase(int key);//+
 
 	Node* find_min(Node* node)
 	{
 
 		Node* cur = node;
-		while (cur && cur->left)
+		while (cur->left)
 		{
 			cur = cur->left;
 		}
@@ -125,7 +125,56 @@ public:
 		return cur;
 	}
 
-void delete_node(Node* node, const int key);
+Node* delete_node(Node* node, const int key)
+{
+	if (!node)
+	{
+		cout <<endl<< "Такого эл-та нет";
+		return NULL;
+	}
+
+		if (key < node->data)
+		{
+			delete_node(node->left, key);
+		}
+
+		else if (key > node->data)
+		{
+			delete_node(node->right, key);
+		}
+		else
+		{
+			if (!node->left && !node->right)
+			{
+				cout << endl << "элемент " << key << " удален";
+				delete node;
+				node = NULL;
+			}
+			if (!node->left)
+			{
+				cout << endl<<"элемент " << key << " удален";
+				Node* tmp = node->right;
+				delete node;
+				node = tmp;
+			}
+			else if (!node->right)
+			{
+				cout <<endl<< "элемент " << key << " удален";
+				Node* tmp = node->left;
+				delete node;
+				node = tmp;
+			}
+			else
+			{
+				cout <<endl<< "элемент " << key << " удален";
+				Node* tmp = find_min(node->right);
+				node->data = tmp->data;
+				node->right = delete_node(node->right, tmp->data);
+			}
+
+		}
+		return node;
+};
 
 void clear();//+
 

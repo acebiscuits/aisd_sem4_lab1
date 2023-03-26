@@ -111,7 +111,7 @@ void TreeMenuAdding(Tree& plum)
 
 		if (choise == 1) continue;
 		else if (choise == 2) return;
-		else plum.insert(val);
+		else if(!(plum.contains(val))) plum.insert(val);
 		return;
 	}
 }
