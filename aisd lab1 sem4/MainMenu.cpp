@@ -16,6 +16,8 @@ using namespace std;
 
 void TreeMenu();
 
+void TestMenu();
+
 HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void GoToXY(short x, short y)
@@ -38,7 +40,7 @@ void MainMenu()
 	setlocale(0, "Rus");
 	ConsoleCursorVisible(false, 100);
 
-	string Menu[] = { "Создать дерево", "Выход(ESC)" };
+	string Menu[] = { "Создать дерево", "SPEED test","Выполнить задание","Выход(ESC)" };
 	int active_menu = 0;
 
 
@@ -78,7 +80,12 @@ void MainMenu()
 				system("CLS");
 				GoToXY(0, 0);
 				TreeMenu();
-				break;;
+				break;
+			case 1:
+				system("CLS");
+				GoToXY(0, 0);
+				TestMenu();
+				break;
 			case (size(Menu) - 1):
 				exit(0);
 			}

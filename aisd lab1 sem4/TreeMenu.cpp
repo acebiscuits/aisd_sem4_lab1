@@ -23,7 +23,7 @@ HANDLE hStdOut_1 = GetStdHandle(STD_OUTPUT_HANDLE);
 //void GoToXY(short x, short y);
 void ConsoleCursorVisible(bool show, short size);
 
-int Mistake(const int mistake)
+int MistakeAdd(const int mistake)
 {
 
 	
@@ -103,15 +103,92 @@ void TreeMenuAdding(Tree& plum)
 
 			cin.clear();
 			while (cin.get() != '\n');
-			choise = Mistake(1);
+			choise = MistakeAdd(1);
 
 			break;
 		}
-		if (double(int(val)) != val)choise = Mistake(2);
+		if (double(int(val)) != val)choise = MistakeAdd(2);
 
 		if (choise == 1) continue;
 		else if (choise == 2) return;
-		else if(!(plum.contains(val))) plum.insert(val);
+		else if(!(plum.contains(val))) plum._insert(val);
+		return;
+	}
+}
+
+
+
+void TreeMenuRemoving(Tree& plum)
+{
+	double val;
+
+	while (1)
+	{
+		system("CLS");
+		SetConsoleTextAttribute(hStdOut_1, STD_COL);
+
+		cout << "Введите значение: ";
+
+		while (!(cin >> val) || (cin.peek() != '\n'))
+		{
+
+
+			cin.clear();
+			while (cin.get() != '\n');
+
+			break;
+		}
+		
+
+
+		
+		if ((plum.contains(val))) plum.erase(val);
+		return;
+	}
+}
+
+void TreeMenuContaining(Tree& plum)
+{
+	double val;
+
+	while (1)
+	{
+		system("CLS");
+		SetConsoleTextAttribute(hStdOut_1, STD_COL);
+
+		cout << "Введите значение: ";
+
+		while (!(cin >> val) || (cin.peek() != '\n'))
+		{
+
+
+			cin.clear();
+			while (cin.get() != '\n');
+
+			break;
+		}
+
+
+
+
+		if (plum.contains(val))
+		{
+			
+			system("CLS");
+				SetConsoleTextAttribute(hStdOut_1, GREEN);
+				cout << "такой эл-т есть";
+
+			
+		}
+		else
+		{
+			system("CLS");
+			SetConsoleTextAttribute(hStdOut_1, RED);
+			cout << "такого эл-та нет";
+		}
+		SetConsoleTextAttribute(hStdOut_1, STD_COL);
+		cout << endl << "Press any key...";
+		_getch();
 		return;
 	}
 }
@@ -122,7 +199,7 @@ void TreeMenu()
 	setlocale(0, "Rus");
 	ConsoleCursorVisible(false, 100);
 
-	string TreeMenuAct[] = { "Добавить элемент", "Удалить элемент", "Проверить наличие", "Назад(ESC)"};
+	string TreeMenuAct[] = { "Добавить элемент", "Удалить элемент", "Проверить наличие","Создать нвое девево", "Назад(ESC)"};
 	int active_menu = 0;
 
 	char ch;
@@ -179,11 +256,25 @@ void TreeMenu()
 			switch (active_menu)
 			{
 			case 0:
-				TreeMenuAdding(plum); 
+				
+				TreeMenuAdding(plum);
 				break;
-			}
+			case 1:
+				if (plum.get_root())
+				TreeMenuRemoving(plum);
+				break;
+			case 2:
+				if (plum.get_root())
+				TreeMenuContaining(plum);
+				break;
+			case 3:
+			
+				TreeMenu();
+				break;
+			case 4:
+				MainMenu();
 			break;
-
+			}
 		default:
 			system("CLS");
 			break;

@@ -53,10 +53,10 @@ public:
 
 	void print();//+
 
-	void print_node(const Node* node)
+	void print_node(const Node* node) const
 	{
 
-		if (node)
+		if (node != NULL)
 		{
 
 			cout <<node->data<<" ";
@@ -68,7 +68,7 @@ public:
 
 	};//+
 
-	bool insert(int key);//+
+	bool _insert(int key);//+
 
 	Node* add(Node* node, const int key)
 	{
@@ -133,14 +133,14 @@ Node* delete_node(Node* node, const int key)
 		return NULL;
 	}
 
-		if (key < node->data)
+		else if (key < node->data)
 		{
-			delete_node(node->left, key);
+		node->left = delete_node(node->left, key);
 		}
 
 		else if (key > node->data)
 		{
-			delete_node(node->right, key);
+		node->right = delete_node(node->right, key);
 		}
 		else
 		{
@@ -148,21 +148,24 @@ Node* delete_node(Node* node, const int key)
 			{
 				cout << endl << "элемент " << key << " удален";
 				delete node;
-				node = NULL;
+				//node = NULL;
+				return NULL;
 			}
-			if (!node->left)
+			else if (!node->left)
 			{
 				cout << endl<<"элемент " << key << " удален";
-				Node* tmp = node->right;
-				delete node;
-				node = tmp;
+				Node* tmp = node;
+				node = node->right;
+				delete tmp;
+				
 			}
 			else if (!node->right)
 			{
 				cout <<endl<< "элемент " << key << " удален";
-				Node* tmp = node->left;
+				Node* tmp = node;
+				node = node->left;
 				delete node;
-				node = tmp;
+				
 			}
 			else
 			{
@@ -173,7 +176,7 @@ Node* delete_node(Node* node, const int key)
 			}
 
 		}
-		return node;
+	return node;
 };
 
 void clear();//+

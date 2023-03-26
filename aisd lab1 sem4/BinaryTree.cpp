@@ -36,9 +36,8 @@ void Tree::print()
 
 }
 
-bool Tree::insert( const int key )
+bool Tree::_insert( const int key )
 {
-	
 	this->root = add( this->root, key );
 	return 1;
 }
@@ -53,7 +52,7 @@ bool Tree::contains(const int key) const
 bool Tree::erase(const int key)
 {
 
-	this->root = Tree::delete_node(this->root, key);
+	this->root = delete_node(this->root, key);
 	return 1;
 };
 
@@ -75,8 +74,3 @@ Tree::~Tree()
 
 }
 
-size_t lcg() {
-	static size_t x = 0;
-	x = (1021 * x + 24631) % 116640;
-	return x;
-}
