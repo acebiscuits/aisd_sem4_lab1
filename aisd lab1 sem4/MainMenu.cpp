@@ -14,9 +14,11 @@
 
 using namespace std;
 
-void TreeMenu();
+int TreeMenu();
 
-void TestMenu();
+int TestMenu();
+
+int TaskMenu();
 
 HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -78,13 +80,33 @@ void MainMenu()
 			{
 			case 0:
 				system("CLS");
-				GoToXY(0, 0);
-				TreeMenu();
+				//GoToXY(0, 0);
+				while (true)
+				{
+					system("CLS");
+					if (TreeMenu() == -1)
+						break;
+				}
 				break;
 			case 1:
 				system("CLS");
-				GoToXY(0, 0);
-				TestMenu();
+				
+				while (true)
+				{
+					system("CLS");
+					if(TestMenu() == -1);
+					break;
+				}
+				break;
+			case 2:
+				system("CLS");
+				while (true)
+				{
+					system("CLS");
+					if (TaskMenu() == -1);
+
+					break;
+				}
 				break;
 			case (size(Menu) - 1):
 				exit(0);

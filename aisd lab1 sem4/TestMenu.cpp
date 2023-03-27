@@ -16,7 +16,7 @@
 #define PAS_PAS 8
 #define RED 12
 #define GREEN 10
-void MainMenu();
+//void MainMenu();
 
 using namespace std;
 
@@ -26,7 +26,7 @@ size_t lcg() {
 	return x;
 }
 
-void TestMenu();
+int TestMenu();
 
 HANDLE hStdOut_2 = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -38,40 +38,50 @@ void cockometr(const int count)
 	system("CLS");
 	
 	int val;
-
+	double all_time = 0;
 	Tree plum;
-	clock_t start = clock();
-	for (int i = 0; i < count; i++)
+	clock_t start;
+	clock_t end;
+	for (int i = 0; i < 100; i++)
 	{
-		val = (int)lcg();
-		if(!(plum.contains(val)))
-		plum._insert(val);
+		start = clock();
+		for (int i = 0; i < count; i++)
+		{
+			val = (int)lcg();
+			if (!(plum.contains(val)))
+				plum._insert(val);
 
+		}
+		end = clock();
+		all_time+= (double)(end - start) / CLOCKS_PER_SEC;
 	}
-	clock_t end = clock();
-	double TeeTime = (double)(end - start) / CLOCKS_PER_SEC;
+	
+	double avg_time = all_time / 100;
 	SetConsoleTextAttribute(hStdOut_2, STD_COL);
 	cout << "Tree time: ";
 	SetConsoleTextAttribute(hStdOut_2, GREEN);
-	cout<< TeeTime;
-
+	cout<< avg_time;
+	all_time = 0;
 
 	vector<int> victor;
-
-	start = clock();
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		victor.push_back((int)lcg()); 
+		start = clock();
+		for (int i = 0; i < count; i++)
+		{
+			victor.push_back((int)lcg());
 
+		}
+		end = clock();
+		all_time += (double)(end - start) / CLOCKS_PER_SEC;
 	}
-	end = clock();
 
-	double VictorTime = (double)(end - start) / CLOCKS_PER_SEC;
+	avg_time = all_time / 100;
 
 	SetConsoleTextAttribute(hStdOut_2, STD_COL);
 	cout << endl<<"Vector time: ";
 	SetConsoleTextAttribute(hStdOut_2, GREEN);
-	cout << (double)(end - start) / CLOCKS_PER_SEC;
+	cout << avg_time;
 
 
 
@@ -83,7 +93,7 @@ void cockometr(const int count)
 void HeyPhil()
 {
 	system("CLS");
-	string TreeMenuAct[] = { "SPEED tets для 100 эл-тов", "SPEED tets для 1000 эл-тов", "SPEED tets для 10000 эл-тов", "Назад(ESC)" };
+	string TreeMenuAct[] = { "SPEED tets для 1000 эл-тов", "SPEED tets для 10000 эл-тов", "SPEED tets для 100000 эл-тов", "Назад(ESC)" };
 	int active_menu = 0;
 	char ch;
 
@@ -107,7 +117,7 @@ void HeyPhil()
 		switch (ch)
 		{
 		case ESC:
-			MainMenu();
+			return;
 		case UP:
 			if (active_menu > 0)
 				--active_menu;
@@ -132,7 +142,7 @@ void HeyPhil()
 				break;
 			case 3:
 
-				TestMenu();
+				return;
 
 				break;
 			}
@@ -192,42 +202,52 @@ void checkmetr(const int count)
 			_getch();
 			return;
 		}
+		clock_t start;
+		clock_t end;
+		double all_time = 0;
+		bool found = 0;
+		for (int i = 0; i < 100; i++)
+		{
+			start = clock();
 
-		bool found;
-		clock_t start = clock();
+			if(plum.contains(val_choise)) found = true;
 
-		found = plum.contains(val_choise);
+			end = clock();
+			all_time+= (double)(end - start) / CLOCKS_PER_SEC;
 
-		clock_t end = clock();
-		double TreeTime = (double)(end - start) / CLOCKS_PER_SEC;
+		}
+		double AvgTime = all_time/100;
 
 		SetConsoleTextAttribute(hStdOut_2, STD_COL);
 		cout << endl << "Tree time: ";
 		SetConsoleTextAttribute(hStdOut_2, GREEN);
-		cout << (double)(end - start) / CLOCKS_PER_SEC;
+		cout << AvgTime;
 		if (found)
 			cout << "\tYes";
 		else
 			cout << "\tNo";
 		vector<int> victor;
 
-
+		all_time = 0;
 		for (int i = 0; i < count; i++)
 		{
 			victor.push_back((int)lcg());
 
 		}
-
-		start = clock();
-		found = std::find(victor.begin(), victor.end(), val_choise) != victor.end();
-		end = clock();
-
-		double VictorTime = (double)(end - start) / CLOCKS_PER_SEC;
+		found = 0;
+		for (int i = 0; i < 100; i++)
+		{
+			start = clock();
+			if(std::find(victor.begin(), victor.end(), val_choise) != victor.end())found = true;
+			end = clock();
+			all_time += (double)(end - start) / CLOCKS_PER_SEC;
+		}
+		AvgTime = all_time / 100;
 
 		SetConsoleTextAttribute(hStdOut_2, STD_COL);
 		cout << endl << "Vector time: ";
 		SetConsoleTextAttribute(hStdOut_2, GREEN);
-		cout << (double)(end - start) / CLOCKS_PER_SEC;
+		cout << AvgTime;
 		if (found)
 			cout << "\tYes";
 		else
@@ -245,7 +265,7 @@ void HeyChuck()
 {
 
 	system("CLS");
-	string TreeMenuAct[] = { "SPEED tets для поиска из 100 эл-тов", "SPEED tets для поиска из 1000 эл-тов", "SPEED tets для поиска из 10000 эл-тов", "Назад(ESC)" };
+	string TreeMenuAct[] = { "SPEED tets для поиска из 1000 эл-тов", "SPEED tets для поиска из 10000 эл-тов", "SPEED tets для поиска из 100000 эл-тов", "Назад(ESC)" };
 	int active_menu = 0;
 	char ch;
 
@@ -269,7 +289,7 @@ void HeyChuck()
 		switch (ch)
 		{
 		case ESC:
-			MainMenu();
+			return;
 		case UP:
 			if (active_menu > 0)
 				--active_menu;
@@ -294,7 +314,7 @@ void HeyChuck()
 				break;
 			case 3:
 
-				TestMenu();
+				return;
 
 				break;
 			}
@@ -311,42 +331,54 @@ void todmetr(const int count)
 	system("CLS");
 
 	int val;
-
+	double all_time = 0;
 	Tree plum;
-	clock_t start = clock();
-	for (int i = 0; i < count; i++)
-	{
-		val = (int)lcg();
-		if (!(plum.contains(val)))
-			plum._insert(val);
+	clock_t start;
+	clock_t end;
 
+	for (int i = 0; i < 100; i++)
+	{
+
+		start = clock();
+		for (int i = 0; i < count; i++)
+		{
+			val = (int)lcg();
+			if (!(plum.contains(val)))
+				plum._insert(val);
+
+		}
+		plum.~Tree();
+		end = clock();
+		all_time+= (double)(end - start) / CLOCKS_PER_SEC;
 	}
-	plum.~Tree();
-	clock_t end = clock();
-	double TeeTime = (double)(end - start) / CLOCKS_PER_SEC;
+	double avg_time = all_time / 100;
+	
+	double TeeTime = avg_time;
 	SetConsoleTextAttribute(hStdOut_2, STD_COL);
 	cout << "Tree time: ";
 	SetConsoleTextAttribute(hStdOut_2, GREEN);
 	cout << TeeTime;
-
+	all_time = 0;
 
 	vector<int> victor;
-
-	start = clock();
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		victor.push_back((int)lcg());
+		start = clock();
+		for (int i = 0; i < count; i++)
+		{
+			victor.push_back((int)lcg());
 
+		}
+		victor.clear();
+		end = clock();
+		all_time += (double)(end - start) / CLOCKS_PER_SEC;
 	}
-	victor.clear();
-	end = clock();
-
-	double VictorTime = (double)(end - start) / CLOCKS_PER_SEC;
+	avg_time = all_time / 100;
 
 	SetConsoleTextAttribute(hStdOut_2, STD_COL);
 	cout << endl << "Vector time: ";
 	SetConsoleTextAttribute(hStdOut_2, GREEN);
-	cout << (double)(end - start) / CLOCKS_PER_SEC;
+	cout << avg_time;
 
 
 
@@ -358,7 +390,7 @@ void todmetr(const int count)
 void HeyTod()
 {
 	system("CLS");
-	string TreeMenuAct[] = { "SPEED tets для заполнения/удаления 100 эл-тов", "SPEED tets для заполнения/удаления 1000 эл-тов", "SPEED tets для заполнения/удаления 10000 эл-тов", "Назад(ESC)" };
+	string TreeMenuAct[] = { "SPEED tets для заполнения/удаления 1000 эл-тов", "SPEED tets для заполнения/удаления 10000 эл-тов", "SPEED tets для заполнения/удаления 100000 эл-тов", "Назад(ESC)" };
 	int active_menu = 0;
 	char ch;
 
@@ -382,7 +414,7 @@ void HeyTod()
 		switch (ch)
 		{
 		case ESC:
-			MainMenu();
+			return;
 		case UP:
 			if (active_menu > 0)
 				--active_menu;
@@ -397,17 +429,17 @@ void HeyTod()
 			switch (active_menu)
 			{
 			case 0:
-				todmetr(100);
-				break;
-			case 1:
 				todmetr(1000);
 				break;
-			case 2:
+			case 1:
 				todmetr(10000);
+				break;
+			case 2:
+				todmetr(100000);
 				break;
 			case 3:
 
-				TestMenu();
+				return;
 
 				break;
 			}
@@ -419,7 +451,7 @@ void HeyTod()
 	}
 }
 
-void TestMenu()
+int TestMenu()
 {
 	system("CLS");
 	setlocale(0, "Rus");
@@ -450,7 +482,8 @@ void TestMenu()
 		switch (ch)
 		{
 		case ESC:
-			MainMenu();
+			system("CLS");
+			return -1;
 		case UP:
 			if (active_menu > 0)
 				--active_menu;
@@ -473,9 +506,9 @@ void TestMenu()
 			case 2:
 				HeyTod();
 				break;
-			case 3:
-
-				MainMenu();
+			case size(TreeMenuAct) -1:
+				system("CLS");
+				return -1;
 
 				break;
 			}

@@ -14,7 +14,7 @@
 #define PAS_PAS 8
 #define RED 12
 #define GREEN 10
-void MainMenu();
+//void MainMenu();
 
 using namespace std;
 
@@ -138,8 +138,8 @@ void TreeMenuRemoving(Tree& plum)
 
 			break;
 		}
-		
-
+		if (double(int(val)) != val)
+			continue;
 
 		
 		if ((plum.contains(val))) plum.erase(val);
@@ -167,7 +167,8 @@ void TreeMenuContaining(Tree& plum)
 
 			break;
 		}
-
+		if (double(int(val)) != val)
+			continue;
 
 
 
@@ -193,7 +194,7 @@ void TreeMenuContaining(Tree& plum)
 	}
 }
 
-void TreeMenu()
+int TreeMenu()
 {
 	system("CLS");
 	setlocale(0, "Rus");
@@ -241,7 +242,8 @@ void TreeMenu()
 		switch (ch)
 		{
 		case ESC:
-			MainMenu();
+			system("CLS");
+			return -1;
 		case UP:
 			if (active_menu > 0)
 				--active_menu;
@@ -268,11 +270,12 @@ void TreeMenu()
 				TreeMenuContaining(plum);
 				break;
 			case 3:
-			
-				TreeMenu();
+				return 1;
+				//TreeMenu();
 				break;
-			case 4:
-				MainMenu();
+			case size(TreeMenuAct) -1:
+				system("CLS");
+				return -1;
 			break;
 			}
 		default:
