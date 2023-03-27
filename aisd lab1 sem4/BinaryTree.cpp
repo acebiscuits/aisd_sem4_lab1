@@ -59,18 +59,18 @@ bool Tree::erase(const int key)
 
 
 
-void Tree::clear()
+bool Tree::clear()
 {
 	
-	Tree::clear_node(this->root);
-
+	clear_node(this->root);
+	return 1;
 }
 
 Tree::~Tree()
 {
 
 	this->clear();
-	delete this->root;
+	
 
 }
 

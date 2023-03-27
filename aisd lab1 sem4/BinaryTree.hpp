@@ -179,17 +179,20 @@ Node* delete_node(Node* node, const int key)
 	return node;
 };
 
-void clear();//+
+bool clear();//+
 
-void clear_node(Node* root)
+Node* clear_node(Node* root)
 {
-
-	if (root->left)clear_node(root->left);
-	if (root->right)clear_node(root->right);
-
-	if (!root->left && !root->right)delete root;
-	root = NULL;
-
+	
+		if (root->left)root->left = clear_node(root->left);
+		else if (root->right)root->right = clear_node(root->right);
+		else
+		{
+			delete root;
+			root = NULL;
+			return root;
+		}
+	
 };
 
 ~Tree();//+
