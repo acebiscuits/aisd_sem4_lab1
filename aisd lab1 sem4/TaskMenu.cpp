@@ -63,8 +63,9 @@ void Task()
 	string TreeMenuAct[] = { "Добавить элемент", "Назад(ESC)" };
 	int active_menu = 0;
 	char ch;
-	std::vector<int> vec;
-
+	std::vector<int> vec, res_vec;
+	Tree plum, oak;
+	int adding_val;
 	while (true)
 	{
 
@@ -83,10 +84,22 @@ void Task()
 			for (int i = 0; i < vec.size(); i++) 
 			{
 				std::cout << vec.at(i) << ' ';
+
+			}
+			cout << endl;
+			SetConsoleTextAttribute(hStdOut_3, STD_COL);
+			cout << "Все повторяющиеся элементы в векторе: ";
+			SetConsoleTextAttribute(hStdOut_3, GREEN);
+			for (int i = 0; i < res_vec.size(); i++)
+			{
+				std::cout << res_vec.at(i) << ' ';
+
 			}
 			SetConsoleTextAttribute(hStdOut_3, STD_COL);
 			cout << endl << endl;
 		}
+		
+
 
 
 
@@ -120,7 +133,21 @@ void Task()
 			switch (active_menu)
 			{
 			case 0:
-				vec.push_back(GetVal());
+				adding_val = GetVal();
+				vec.push_back(adding_val);
+				if (!plum.contains(adding_val))
+				{
+					plum._insert(adding_val);
+				}
+				else
+				{
+					if (!oak.contains(adding_val))
+					{
+						oak._insert(adding_val);
+
+						res_vec.push_back(adding_val);
+					}
+				}
 				break;
 
 			case 1:
