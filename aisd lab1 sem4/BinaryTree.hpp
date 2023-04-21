@@ -1,6 +1,10 @@
 #pragma once
 #include <stdio.h>
+#include <queue>
+#include <algorithm>
 #include <stdlib.h>
+#include <cmath>
+#include <iomanip>
 #include <iostream>
 using namespace std;
 
@@ -53,17 +57,47 @@ public:
 
 	void print();//+
 
-	void print_node(const Node* node) const
+	int height(const Node* node) const
 	{
+		if (node == NULL) return 0;
+		return max(height(node->left), height(node->right)) + 1;
+	}
 
-		if (node != NULL)
+	void print_node( Node* node) 
+	{
+		int h = height(node);
+		int max_nodes = pow(2, h) - 1;
+		queue<Node*> q;
+		q.push(node);
+		int level = 0;
+		while (!q.empty() && level < h)
 		{
+			int level_nodes = q.size();
+			int nodes_to_print = min(level_nodes, max_nodes);
+			int indent = pow(2, h - level - 1) - 1;
+			cout << setw(indent) << "";
+			for (int i = 0; i < nodes_to_print; i++)
+			{
+				Node* node = q.front();
+				q.pop();
+				if (node != NULL)
+				{
+					cout << node->data;
+					q.push(node->left);
+					q.push(node->right);
+				}
+				else
+				{
+					cout << "-";
+					q.push(NULL);
+					q.push(NULL);
+				}
+				cout << setw(2 * indent + 1) << "";
+			}
+			cout << endl;
+			level++;
 
-			cout <<node->data<<" ";
-			print_node(node->left);
-			print_node(node->right);
 		}
-
 		
 
 	};//+
@@ -146,14 +180,14 @@ Node* delete_node(Node* node, const int key)
 		{
 			if (!node->left && !node->right)
 			{
-				cout << endl << "элемент " << key << " удален";
+				//cout << endl << "элемент " << key << " удален";
 				delete node;
 				//node = NULL;
 				return NULL;
 			}
 			else if (!node->left)
 			{
-				cout << endl<<"элемент " << key << " удален";
+				//cout << endl<<"элемент " << key << " удален";
 				Node* tmp = node;
 				node = node->right;
 				delete tmp;
@@ -161,7 +195,7 @@ Node* delete_node(Node* node, const int key)
 			}
 			else if (!node->right)
 			{
-				cout <<endl<< "элемент " << key << " удален";
+				//cout <<endl<< "элемент " << key << " удален";
 				Node* tmp = node;
 				node = node->left;
 				delete node;
@@ -169,7 +203,7 @@ Node* delete_node(Node* node, const int key)
 			}
 			else
 			{
-				cout <<endl<< "элемент " << key << " удален";
+				//cout <<endl<< "элемент " << key << " удален";
 				Node* tmp = find_min(node->right);
 				node->data = tmp->data;
 				node->right = delete_node(node->right, tmp->data);
@@ -183,7 +217,8 @@ bool clear();//+
 
 Node* clear_node(Node* root)
 {
-	
+	if (root)
+	{
 		if (root->left)root->left = clear_node(root->left);
 		else if (root->right)root->right = clear_node(root->right);
 		else
@@ -192,7 +227,7 @@ Node* clear_node(Node* root)
 			root = NULL;
 			return root;
 		}
-	
+	}
 };
 
 ~Tree();//+

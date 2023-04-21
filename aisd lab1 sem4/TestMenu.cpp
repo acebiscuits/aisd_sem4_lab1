@@ -5,6 +5,7 @@
 #include <string>
 #include <time.h>
 #include<vector>
+#include<fstream>
 #include "BinaryTree.hpp"
 #define ESC 27
 #define UP 72
@@ -27,6 +28,131 @@ size_t lcg() {
 }
 
 int TestMenu();
+
+void Speed_filling_to_txt()
+{
+	ofstream outfile("filling_speed.csv");
+	clock_t start, end;
+	for (int i = 1000; i < 100001; i += 1000)
+	{
+		vector<int> vec;
+		start = clock();
+		for (int j = 0; j < i; j++)
+		{
+			vec.push_back((int)(lcg()));
+
+		}
+		end = clock();
+		double vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+
+		double tree_time = 0;
+		for (int j = 0; j < 100; j++)
+		{
+			Tree oak;
+			start = clock();
+			for (int k = 0; k < i; k++)
+			{
+				oak._insert((int)(lcg()));
+			}
+			end = clock();
+			tree_time += (double)(end - start) / CLOCKS_PER_SEC;
+		}
+		tree_time /= 100;
+
+		outfile << i << "," << vec_time << "," << tree_time << "\n";
+		cout << i << " write" << endl;
+
+	}
+
+	outfile.close();
+}
+
+void Speed_finding_to_txt()
+{
+	ofstream outfile("finding_speed.csv");
+	clock_t start, end;
+	vector<int> vec;
+	Tree plum;
+	for (int i = 1000; i < 100001; i += 1000)
+	{
+		for (int j = 0; j < 1000; j++)
+		{
+			vec.push_back((int)(lcg()));
+
+		}
+		int ebbr;
+		start = clock();
+		auto place = find(vec.begin(), vec.end(), (int)(lcg()));
+		end = clock();
+		double vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+
+		double tree_time = 0;
+		for (int j = 0; j < 1000; j++)
+		{
+			plum._insert((int)(lcg()));
+		}
+
+		for (int j = 0; j < 1000; j++)
+		{
+			start = clock();
+			ebbr = plum.contains((int)(lcg()));
+			end = clock();
+			tree_time += (double)(end - start) / CLOCKS_PER_SEC;
+		}
+		tree_time /= 1000;
+
+		outfile << i << "," << vec_time << "," << tree_time << "\n";
+		cout << i << " write" << endl;
+
+	}
+
+	outfile.close();
+}
+
+void Speed_add_delete_to_txt()
+{
+	ofstream outfile("adding_deleting_speed.csv");
+	clock_t start, end;
+	vector<int> vec;
+	Tree plum;
+	for (int i = 1000; i < 100001; i += 1000)
+	{
+		for (int j = 0; j < 1000; j++)
+		{
+			vec.push_back((int)(lcg()));
+
+		}
+		int rand_val = (int)lcg();
+		start = clock();
+		vec.push_back(rand_val);
+		vec.erase(remove(vec.begin(), vec.end(), rand_val), vec.end());
+		end = clock();
+		double vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+
+		double tree_time = 0;
+		for (int j = 0; j < 1000; j++)
+		{
+			plum._insert((int)(lcg()));
+		}
+
+		for (int j = 0; j < 1000; j++)
+		{
+			rand_val = lcg();
+			start = clock();
+			plum._insert(rand_val);
+			plum.erase(rand_val);
+			end = clock();
+			tree_time += (double)(end - start) / CLOCKS_PER_SEC;
+		}
+		tree_time /= 1000;
+
+		outfile << i << "," << vec_time << "," << tree_time << "\n";
+		cout << i << " write" << endl;
+
+	}
+
+	outfile.close();
+}
 
 HANDLE hStdOut_2 = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -498,13 +624,17 @@ int TestMenu()
 			switch (active_menu)
 			{
 			case 0:
-				HeyPhil();
+				//HeyPhil();
+				Speed_filling_to_txt();
 				break;
 			case 1:
-				HeyChuck();
+				//HeyChuck();
+				Speed_finding_to_txt();
 				break;
 			case 2:
-				HeyTod();
+				Speed_add_delete_to_txt();
+				//HeyTod();
+				
 				break;
 			case size(TreeMenuAct) -1:
 				system("CLS");

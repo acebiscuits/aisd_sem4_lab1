@@ -30,7 +30,7 @@ Tree& Tree::operator = (const Tree& CopyTree)
 
 void Tree::print()
 {
-	//cout << endl;
+	cout << endl << endl;
 
 	print_node(this->root);
 
